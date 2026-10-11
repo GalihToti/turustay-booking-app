@@ -2,7 +2,7 @@
 
 Studi kasus Final Project: TuruStay, aplikasi web booking kamar hotel berbasis Laravel dan MySQL, dengan dua peran (tamu dan admin), CRUD kamar, dan manajemen booking.
 
-**Nama produk:** TuruStay. "Turu" berarti tidur dalam bahasa Jawa sehari-hari, dan "Stay" adalah istilah umum di industri penginapan. Nama ini juga menjadi nama repository: `turustay-core`.
+**Nama produk:** TuruStay. "Turu" berarti tidur dalam bahasa Jawa sehari-hari, dan "Stay" adalah istilah umum di industri penginapan. Nama ini juga menjadi nama repository: `turustay-bookig-app`.
 
 ## Daftar isi
 
@@ -63,8 +63,6 @@ Enam tabel di MySQL. Tipe kamar berperan sebagai "layanan", dan rentang tanggal 
 **Nilai status booking:** `pending`, `confirmed`, `checked_in`, `completed`, `cancelled`.
 
 ## 4. ERD
-
-Diagram ditulis dengan Mermaid, sehingga tampil otomatis di GitHub dan editor yang mendukung Mermaid.
 
 ```mermaid
 erDiagram
@@ -184,8 +182,8 @@ CRUD utama untuk tugas 2 ada di tiga resource admin: tipe kamar, kamar, dan book
 Langkah persiapan proyek:
 
 ```bash
-composer create-project laravel/laravel turustay-core
-cd turustay-core
+composer create-project laravel/laravel turustay-bookig-app
+cd turustay-bookig-app
 composer require laravel/breeze --dev
 php artisan breeze:install blade
 # atur DB_DATABASE, DB_USERNAME, DB_PASSWORD di file .env
@@ -201,26 +199,26 @@ Breeze menyediakan login dan registrasi. Tambahkan middleware `IsAdmin` yang mem
 
 Satu anggota (ketua tim) membuat repository, lalu mengundang semua anggota lain sebagai collaborator.
 
-1. Di GitHub, klik **New repository**, beri nama `turustay-core`, pilih Private atau Public, lalu **Create repository**.
+1. Di GitHub, klik **New repository**, beri nama `turustay-bookig-app`, pilih Private atau Public, lalu **Create repository**.
 2. Buka **Settings** > **Collaborators** (di grup Access), klik **Add people**, masukkan username atau email GitHub tiap anggota, lalu pilih **Add to repository**. Repository private memakai pengaturan ini; jika repository berada di organisasi, menu aksesnya bisa berbeda.
 3. Setiap anggota menerima undangan lewat email atau halaman notifikasi GitHub dan harus menerimanya (**Accept invitation**) sebelum bisa push.
 4. Ketua mengunggah proyek Laravel pertama ke branch `main`:
 
 ```bash
-cd turustay-core
+cd turustay-bookig-app
 git init
 git add .
 git commit -m "Initial commit: Laravel project"
 git branch -M main
-git remote add origin https://github.com/<username>/turustay-core.git
+git remote add origin https://github.com/<username>/turustay-bookig-app.git
 git push -u origin main
 ```
 
 5. Anggota lain mengkloning repository, menyiapkan environment, dan bekerja di branch masing-masing:
 
 ```bash
-git clone https://github.com/<username>/turustay-core.git
-cd turustay-core
+git clone https://github.com/<username>/turustay-bookig-app.git
+cd turustay-bookig-app
 composer install
 cp .env.example .env
 php artisan key:generate
@@ -242,3 +240,6 @@ git push -u origin feature/crud-kamar
 - Satu fitur satu branch, dengan nama seperti `feature/auth`, `feature/booking`, `feature/crud-kamar`.
 - Jalankan `git pull origin main` sebelum mulai bekerja agar tidak bentrok.
 - Pesan commit singkat dan jelas dalam satu bahasa yang sama.
+
+
+~~MATUR SEMBAH NUWUN~~
