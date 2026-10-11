@@ -1,20 +1,30 @@
 # Rancangan Sistem Booking TuruStay
 
-Oct 11, 2026 @Kelompok Pemula
-
 Studi kasus Final Project: TuruStay, aplikasi web booking kamar hotel berbasis Laravel dan MySQL, dengan dua peran (tamu dan admin), CRUD kamar, dan manajemen booking.
 
-**Nama produk:** TuruStay. "Turu" berarti tidur dalam bahasa Jawa sehari-hari, dan "Stay" adalah istilah umum di industri penginapan. Nama ini juga menjadi nama repository: `turustay-booking-app`.
+**Nama produk:** TuruStay. "Turu" berarti tidur dalam bahasa Jawa sehari-hari, dan "Stay" adalah istilah umum di industri penginapan. Nama ini juga menjadi nama repository: `turustay-core`.
 
-## Studi kasus
+## Daftar isi
+
+1. [Studi kasus](#1-studi-kasus)
+2. [Peran dan fitur](#2-peran-dan-fitur)
+3. [Rancangan database](#3-rancangan-database)
+4. [ERD](#4-erd)
+5. [Alur booking dan aturan bisnis](#5-alur-booking-dan-aturan-bisnis)
+6. [Rencana implementasi CRUD di Laravel](#6-rencana-implementasi-crud-di-laravel)
+7. [Repository GitHub kolaboratif](#7-repository-github-kolaboratif)
+
+---
+
+## 1. Studi kasus
 
 Hotel kecil dan penginapan sering menerima pesanan lewat telepon atau chat, sehingga rawan bentrok jadwal dan sulit direkap. Aplikasi ini memungkinkan tamu melihat kamar, memilih tanggal menginap, dan memesan secara online, sementara admin mengelola kamar dan memantau semua booking dari satu dashboard.
 
 **Ruang lingkup:** daftar dan login, katalog kamar, cek ketersediaan berdasarkan tanggal, booking, riwayat booking tamu, serta pengelolaan kamar dan booking oleh admin. Pembayaran online di luar cakupan; status pembayaran dicatat manual oleh admin.
 
-## Peran dan fitur
+## 2. Peran dan fitur
 
-Akses dibedakan lewat kolom `role` pada tabel users (`admin` atau `user`) dan middleware Laravel.
+Akses dibedakan lewat kolom `role` pada tabel `users` (`admin` atau `user`) dan middleware Laravel.
 
 | Fitur | Tamu (user) | Admin |
 | --- | --- | --- |
@@ -30,18 +40,18 @@ Akses dibedakan lewat kolom `role` pada tabel users (`admin` atau `user`) dan mi
 | Ubah status booking (konfirmasi, check-in, selesai, batal) | Tidak | Ya |
 | Kelola data user | Tidak | Ya |
 
-## Rancangan database
+## 3. Rancangan database
 
 Enam tabel di MySQL. Tipe kamar berperan sebagai "layanan", dan rentang tanggal check-in sampai check-out pada booking berperan sebagai "jadwal".
 
 | Tabel | Kolom utama | Keterangan |
 | --- | --- | --- |
 | users | id, name, email (unik), password, phone, role (admin/user), timestamps | Akun tamu dan admin |
-| room\_types | id, name, description, price\_per\_night, capacity, image | Layanan yang dijual (Standard, Deluxe, Suite) |
-| rooms | id, room\_type\_id (FK), room\_number (unik), floor, status (available/maintenance) | Kamar fisik |
+| room_types | id, name, description, price_per_night, capacity, image | Layanan yang dijual (Standard, Deluxe, Suite) |
+| rooms | id, room_type_id (FK), room_number (unik), floor, status (available/maintenance) | Kamar fisik |
 | facilities | id, name, icon | Master fasilitas (WiFi, AC, sarapan) |
-| facility\_room\_type | facility\_id (FK), room\_type\_id (FK) | Tabel pivot many-to-many |
-| bookings | id, booking\_code (unik), user\_id (FK), room\_id (FK), check\_in, check\_out, guests, total\_price, status, payment\_status, notes, timestamps | Transaksi booking |
+| facility_room_type | facility_id (FK), room_type_id (FK) | Tabel pivot many-to-many |
+| bookings | id, booking_code (unik), user_id (FK), room_id (FK), check_in, check_out, guests, total_price, status, payment_status, notes, timestamps | Transaksi booking |
 
 **Relasi:**
 
@@ -52,7 +62,96 @@ Enam tabel di MySQL. Tipe kamar berperan sebagai "layanan", dan rentang tanggal 
 
 **Nilai status booking:** `pending`, `confirmed`, `checked_in`, `completed`, `cancelled`.
 
-## Alur booking dan aturan bisnis
+## 4. ERD
+
+Diagram ditulis dengan Mermaid, sehingga tampil otomatis di GitHub dan editor yang mendukung Mermaid.
+
+```mermaid
+erDiagram
+    USERS ||--o{ BOOKINGS : "membuat"
+    ROOM_TYPES ||--o{ ROOMS : "memiliki"
+    ROOMS ||--o{ BOOKINGS : "dipesan di"
+    ROOM_TYPES ||--o{ FACILITY_ROOM_TYPE : "punya"
+    FACILITIES ||--o{ FACILITY_ROOM_TYPE : "dimiliki"
+
+    USERS {
+        bigint id PK
+        string name
+        string email UK
+        string password
+        string phone
+        enum role "admin, user"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROOM_TYPES {
+        bigint id PK
+        string name
+        text description
+        decimal price_per_night
+        int capacity
+        string image
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    ROOMS {
+        bigint id PK
+        bigint room_type_id FK
+        string room_number UK
+        int floor
+        enum status "available, maintenance"
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    FACILITIES {
+        bigint id PK
+        string name
+        string icon
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    FACILITY_ROOM_TYPE {
+        bigint facility_id FK
+        bigint room_type_id FK
+    }
+
+    BOOKINGS {
+        bigint id PK
+        string booking_code UK
+        bigint user_id FK
+        bigint room_id FK
+        date check_in
+        date check_out
+        int guests
+        decimal total_price
+        enum status "pending, confirmed, checked_in, completed, cancelled"
+        enum payment_status "unpaid, paid"
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+```
+
+**Daftar relasi:**
+
+| Relasi | Kardinalitas | Foreign key | Keterangan |
+| --- | --- | --- | --- |
+| users - bookings | 1 : N | `bookings.user_id` | Satu user dapat membuat banyak booking |
+| room_types - rooms | 1 : N | `rooms.room_type_id` | Satu tipe kamar punya banyak kamar fisik |
+| rooms - bookings | 1 : N | `bookings.room_id` | Satu kamar dapat dipesan berkali-kali pada tanggal berbeda |
+| room_types - facilities | N : M | `facility_room_type.room_type_id`, `facility_room_type.facility_id` | Dihubungkan lewat tabel pivot |
+
+**Catatan ERD:**
+
+- `PK` = primary key, `FK` = foreign key, `UK` = unique key.
+- Tabel pivot `facility_room_type` memakai gabungan `facility_id` dan `room_type_id` sebagai primary key.
+- Disarankan memberi `onDelete('restrict')` pada `bookings.room_id` dan `bookings.user_id` agar riwayat booking tidak ikut terhapus.
+
+## 5. Alur booking dan aturan bisnis
 
 1. Tamu login, lalu memilih tanggal check-in, check-out, dan jumlah tamu.
 2. Sistem menampilkan tipe kamar yang punya minimal satu kamar kosong pada rentang tanggal itu.
@@ -69,16 +168,16 @@ Enam tabel di MySQL. Tipe kamar berperan sebagai "layanan", dan rentang tanggal 
 - Tamu hanya bisa membatalkan booking berstatus `pending`.
 - Kamar berstatus `maintenance` tidak ikut dihitung sebagai kamar kosong.
 
-## Rencana implementasi CRUD di Laravel
+## 6. Rencana implementasi CRUD di Laravel
 
 CRUD utama untuk tugas 2 ada di tiga resource admin: tipe kamar, kamar, dan booking. Tampilan memakai Blade dengan Bootstrap 5.
 
 | Resource | Model | Controller | Route | Akses |
 | --- | --- | --- | --- | --- |
-| Tipe kamar | RoomType | Admin\\RoomTypeController | `Route::resource('admin/room-types')` | admin |
-| Kamar | Room | Admin\\RoomController | `Route::resource('admin/rooms')` | admin |
-| Fasilitas | Facility | Admin\\FacilityController | `Route::resource('admin/facilities')` | admin |
-| Booking (admin) | Booking | Admin\\BookingController | index, show, update status, destroy | admin |
+| Tipe kamar | RoomType | Admin\RoomTypeController | `Route::resource('admin/room-types')` | admin |
+| Kamar | Room | Admin\RoomController | `Route::resource('admin/rooms')` | admin |
+| Fasilitas | Facility | Admin\FacilityController | `Route::resource('admin/facilities')` | admin |
+| Booking (admin) | Booking | Admin\BookingController | index, show, update status, destroy | admin |
 | Booking (tamu) | Booking | BookingController | index, create, store, show, cancel | user |
 | Katalog kamar | RoomType | RoomCatalogController | index, show | publik |
 
@@ -98,7 +197,7 @@ php artisan migrate --seed
 
 Breeze menyediakan login dan registrasi. Tambahkan middleware `IsAdmin` yang memeriksa `auth()->user()->role === 'admin'`, lalu pasang pada grup route `admin/*`. Seeder membuat satu akun admin dan beberapa tipe kamar contoh.
 
-## Repository GitHub kolaboratif
+## 7. Repository GitHub kolaboratif
 
 Satu anggota (ketua tim) membuat repository, lalu mengundang semua anggota lain sebagai collaborator.
 
