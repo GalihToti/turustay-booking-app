@@ -13,13 +13,13 @@
     <label>Status</label>
     <select name="status">
         @foreach ($statuses as $s)
-            <option value="{{ $s }}" @selected(old('status', $booking->status) === $s)>{{ $s }}</option>
+        <option value="{{ $s }}" @selected(old('status', $booking->status) === $s)>{{ $s }}</option>
         @endforeach
     </select>
     <label>Pembayaran</label>
     <select name="payment_status">
         @foreach (['unpaid', 'paid'] as $p)
-            <option value="{{ $p }}" @selected(old('payment_status', $booking->payment_status) === $p)>{{ $p }}</option>
+        <option value="{{ $p }}" @selected(old('payment_status', $booking->payment_status) === $p)>{{ $p }}</option>
         @endforeach
     </select>
     <button type="submit">Perbarui</button>
