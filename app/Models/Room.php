@@ -16,13 +16,17 @@ class Room extends Model
         'status',
     ];
 
-    public function room_types(): BelongsTo {
+    public function roomType(): BelongsTo {
         return $this->belongsTo(RoomType::class);
     }
 
-    public function facilities(): HasMany{
+    public function facilities(): HasMany {
         return $this->hasMany(Facility::class);
-    }  
+    } 
+    
+    public function bookings(): HasMany {
+        return $this->hasMany(Booking::class);
+    }
 
     public function scopeAvailable(Builder $query, string $checkIn, string $checkOut): Builder {
         return $query

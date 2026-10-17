@@ -36,7 +36,7 @@
                 @enderror
             </div>
             <div class="col-md-3 d-flex gap-2" style="margin-top: 2rem;">
-                <button type="submit" class="btn btn-primary grow">
+                <button type="submit" class="btn btn-primary flex-grow-1">
                     <i class="bi bi-search"></i> Cari kamar
                 </button>
                 @if ($searched || $guests)
@@ -99,4 +99,57 @@
             </div>
         @endforelse
     </div>
+    <section class="mt-5">
+        <h3 class="text-center mb-4">Kenapa TuruStay?</h3>
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <i class="bi bi-lightning-charge fs-1 text-primary"></i>
+                <h5 class="mt-2">Booking cepat</h5>
+                <p class="text-muted">Pilih tanggal, pilih kamar, selesai dalam hitungan menit.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-shield-check fs-1 text-primary"></i>
+                <h5 class="mt-2">Ketersediaan akurat</h5>
+                <p class="text-muted">Sistem otomatis mencegah satu kamar dipesan di tanggal yang bentrok.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="bi bi-cup-hot fs-1 text-primary"></i>
+                <h5 class="mt-2">Fasilitas jelas</h5>
+                <p class="text-muted">Dari WiFi sampai sarapan, semua terlihat sebelum kamu memesan.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-5 mb-4">
+        <h3 class="text-center mb-4">Cara memesan</h3>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-1 fw-bold text-primary">1</div>
+                        <h5>Pilih tanggal</h5>
+                        <p class="text-muted mb-0">Tentukan check-in, check-out, dan jumlah tamu, lalu cari kamar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-1 fw-bold text-primary">2</div>
+                        <h5>Pilih kamar</h5>
+                        <p class="text-muted mb-0">Bandingkan tipe kamar, harga, dan fasilitas, lalu lanjut booking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="fs-1 fw-bold text-primary">3</div>
+                        <h5>Tunggu konfirmasi</h5>
+                        <p class="text-muted mb-0">Admin memeriksa pesananmu dan mengubah statusnya menjadi dikonfirmasi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'pending'=>Booking::where('status', 'pending')->count(),
         ];
 
-        $latestBookings = Booking::with(['user', 'room.roomTypr'])
+        $latestBookings = Booking::with(['user', 'room.roomType'])
             ->latest()
             ->take(5)
             ->get();

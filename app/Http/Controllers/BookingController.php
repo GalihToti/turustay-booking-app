@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
     public function index() {
         // Riwayat milik user yang login
         $bookings = Booking::with('room.roomType')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->latest()
             ->paginate(10);
         return view('bookings.index', compact('bookings'));
@@ -71,7 +72,7 @@ class BookingController extends Controller
 
             return Booking::create([
                 'booking_code' => $this->generateCode(),
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'room_id' => $room->id,
                 'check_in' => $data['check_in'],
                 'check_out' => $data['check_out'],
@@ -91,7 +92,7 @@ class BookingController extends Controller
     public function show(Booking $booking) {
         $this->ensureOwner($booking);
         $booking->load('room.roomType');
-        return view('booking.show', compact('booking'));
+        return view('bookings.show', compact('booking'));
     }
 
     public function cancel(Booking $booking) {
@@ -123,7 +124,7 @@ class BookingController extends Controller
 
     private function ensureOwner(Booking $booking): void
     {
-        abort_unless($booking->user_id === auth()->id(), 403);
+        abort_unless($booking->user_id === Auth::id(), 403);
     }
 
     private function generateCode(): string

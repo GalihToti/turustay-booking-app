@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoomTypeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\RoomCatalogController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
@@ -31,3 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
     Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 });
+
+
+Route::get('/dashboard', function () {
+    return Auth::user()->role === 'admin'
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('bookings.index');
+})->middleware('auth')->name('dashboard');
+
+require __DIR__.'/auth.php';
