@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\RoomType; 
+use App\Models\RoomType;
+use App\Services\RoomAvailability;
 
 class RoomCatalogController extends Controller
 {
@@ -22,8 +23,8 @@ class RoomCatalogController extends Controller
         $roomTypes = RoomType::with('facilities')->get();
 
         if ($searched) {
-            $roomTypes->map(function ($type) {
-                $type->available_count = $type->rooms()->count(); 
+            $roomTypes->map(function ($type) use ($checkIn, $checkOut) {
+                $type->available_count = RoomAvailability::rooms($type->id, $checkIn, $checkOut)->count();
                 return $type;
             });
         }
@@ -47,7 +48,7 @@ class RoomCatalogController extends Controller
         $availableCount = null; 
 
         if ($request->filled('check_in') && $request->filled('check_out')) {
-            $availableCount = $roomType->rooms()->count();
+            $availableCount = RoomAvailability::rooms($roomType->id, $checkIn, $checkOut)->count();
         }
         return view('rooms.show', compact('roomType', 'checkIn', 'checkOut', 'guests', 'availableCount'));
     }
