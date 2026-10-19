@@ -12,10 +12,11 @@ class DashboardController extends Controller
 {
     public function index() {
         $stats = [
-            'room_types'=>RoomType::count(),
-            'rooms'=>Room::count(),
-            'bookings'=>Booking::count(),
-            'pending'=>Booking::where('status', 'pending')->count(),
+            'room_types' => RoomType::count(),
+            'rooms' => Room::count(),
+            'bookings' => Booking::count(),
+            'pending' => Booking::where('status', 'pending')->count(),
+            'today' => Booking::whereDate('check_in', today())->where('status', '!=', 'cancelled')->count(),
         ];
 
         $latestBookings = Booking::with(['user', 'room.roomType'])
