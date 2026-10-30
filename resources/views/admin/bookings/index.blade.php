@@ -3,7 +3,7 @@
 @section('title', 'Manajemen Booking - TuruStay')
 
 @section('content')
-<div class="container mt-4 mb-5">
+<div>
     <!-- Header & Filter -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <h1 class="h3 mb-0 text-gray-800">Manajemen Booking</h1>

@@ -43,23 +43,39 @@
                         <small class="text-muted fs-6 fw-normal">/ malam</small>
                     </div>
 
+                    @if ($errors->any())
+                        <div class="alert alert-danger py-2">
+                            <ul class="mb-0 small">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <form method="GET" action="{{ route('bookings.create') }}">
                         <input type="hidden" name="room_type_id" value="{{ $roomType->id }}">
 
                         <div class="mb-3">
                             <label class="form-label" for="check_in">Check-in</label>
                             <input type="date" id="check_in" name="check_in" value="{{ $checkIn }}"
-                                   min="{{ now()->toDateString() }}" required class="form-control">
+                                   min="{{ now()->toDateString() }}" required
+                                   class="form-control @error('check_in') is-invalid @enderror">
+                            @error('check_in') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="check_out">Check-out</label>
                             <input type="date" id="check_out" name="check_out" value="{{ $checkOut }}"
-                                   min="{{ now()->addDay()->toDateString() }}" required class="form-control">
+                                   min="{{ now()->addDay()->toDateString() }}" required
+                                   class="form-control @error('check_out') is-invalid @enderror">
+                            @error('check_out') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="guests">Jumlah tamu</label>
                             <input type="number" id="guests" name="guests" value="{{ $guests ?? 1 }}"
-                                   min="1" max="{{ $roomType->capacity }}" required class="form-control">
+                                   min="1" max="{{ $roomType->capacity }}" required
+                                   class="form-control @error('guests') is-invalid @enderror">
+                            @error('guests') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
 
                         @if (! is_null($availableCount))

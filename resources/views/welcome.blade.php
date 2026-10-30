@@ -1,276 +1,475 @@
 @extends('layouts.site')
 
-@section('title', 'TuruStay - Temukan Kenyamanan Sempurna')
+@section('title', 'TuruStay - Kenyamanan Sempurna Menanti Anda')
 
 @section('content')
 <style>
-    .hero-section {
-        /* Ganti URL gambar dengan gambar asli hotel Anda jika ada */
-        background: linear-gradient(rgba(30, 30, 30, 0.4), rgba(20, 20, 20, 0.7)), url('https://images.unsplash.com/photo-1542314831-c6a4d14b4fb3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-        min-height: 60vh;
-        display: flex;
-        align-items: center;
-        border-radius: 0 0 2rem 2rem;
-        margin-top: -1rem;
-        /* Menyesuaikan jika ada padding dari layout utama */
-    }
-
-    .floating-search {
-        margin-top: -4rem;
-        z-index: 10;
-        position: relative;
-    }
-
-    .room-card {
-        transition: all 0.3s ease;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .room-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1) !important;
-    }
-
-    .step-number {
-        width: 60px;
-        height: 60px;
+    /* 2. Hero Section */
+    .hero-wireframe {
+        background: linear-gradient(rgba(17, 24, 39, 0.5), rgba(17, 24, 39, 0.7)), 
+                    url('https://images.unsplash.com/photo-1542314831-c6a4d14b4fb3?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+        min-height: 65vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin-top: -1rem;
+    }
+
+    /* 3. Floating Booking Engine */
+    .floating-booking {
+        margin-top: -3.5rem;
+        position: relative;
+        z-index: 20;
+    }
+
+    .booking-engine-card {
+        border-radius: 0.75rem;
+        background: #ffffff;
+        box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.08);
+        border: 1px solid #e5e7eb;
+    }
+
+    /* 4. About Section Photo Grid */
+    .photo-grid-main {
+        height: 320px;
+        border-radius: 0.75rem;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .photo-grid-sub {
+        height: 152px;
+        border-radius: 0.75rem;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    /* 5. Rooms Card */
+    .room-card-wf {
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background: #ffffff;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .room-card-wf:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.08);
+    }
+
+    /* 6. Amenities Circles */
+    .amenity-circle {
+        width: 68px;
+        height: 68px;
         border-radius: 50%;
-        background-color: #f0e9e1;
-        color: #8c6b4a;
-        /* Warna cokelat/emas hangat */
-        margin: 0 auto 1rem;
+        background-color: #f3f4f6;
+        color: #374151;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.75rem;
+        margin: 0 auto 0.75rem auto;
+        transition: all 0.3s ease;
     }
 
-    .btn-brand {
-        background-color: #2c3e50;
-        color: #fff;
-        border: none;
+    .amenity-item:hover .amenity-circle {
+        background-color: #0d6efd;
+        color: #ffffff;
+        transform: scale(1.08);
     }
 
-    .btn-brand:hover {
-        background-color: #1a252f;
-        color: #fff;
+    /* Testimonial Card */
+    .testimonial-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
     }
 </style>
 
-<!-- Hero Section -->
-<div class="hero-section">
-    <div class="container text-center text-white pb-5">
-        <h1 class="display-4 fw-bold mb-3">Istirahat Tenang, Pesan Mudah.</h1>
-        <p class="lead fs-5 text-white-50 mb-0">Temukan kamar ideal Anda untuk pengalaman menginap yang tak terlupakan di TuruStay.</p>
+<!-- 2. Hero Section -->
+<section class="hero-wireframe text-white text-center px-3">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold mb-3 tracking-tight">Kenyamanan Sempurna Menanti Anda</h1>
+        <p class="lead text-white-50 mx-auto mb-0" style="max-width: 720px;">
+            Temukan perpaduan sempurna antara kemewahan modern dan keramahan lokal di jantung kota.
+        </p>
     </div>
-</div>
+</section>
 
-<!-- Floating Search Bar -->
-<div class="container floating-search mb-5">
-    <div class="card shadow-lg border-0 rounded-4 p-3 p-md-4 bg-white">
-        <form method="GET" action="{{ route('home') }}" class="row g-3 align-items-center">
-
+<!-- 3. Floating Booking Engine -->
+<div class="container floating-booking mb-5">
+    <div class="booking-engine-card p-4">
+        <form method="GET" action="{{ route('home') }}" class="row g-3 align-items-end">
+            <!-- Check-in -->
             <div class="col-md-3">
-                <div class="form-floating">
+                <label for="check_in" class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">
+                    <i class="bi bi-calendar-check me-1"></i> Check-in
+                </label>
+                <div class="border rounded-3 p-1 bg-light">
                     <input type="date" id="check_in" name="check_in" value="{{ $checkIn }}"
-                        min="{{ now()->toDateString() }}"
-                        class="form-control bg-light border-0 @error('check_in') is-invalid @enderror">
-                    <label for="check_in" class="text-muted"><i class="bi bi-calendar-check me-1"></i> Check-in</label>
-                    @error('check_in')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                           min="{{ now()->toDateString() }}"
+                           class="form-control border-0 bg-transparent @error('check_in') is-invalid @enderror">
                 </div>
+                @error('check_in')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
+            <!-- Check-out -->
             <div class="col-md-3">
-                <div class="form-floating">
+                <label for="check_out" class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">
+                    <i class="bi bi-calendar-x me-1"></i> Check-out
+                </label>
+                <div class="border rounded-3 p-1 bg-light">
                     <input type="date" id="check_out" name="check_out" value="{{ $checkOut }}"
-                        min="{{ now()->addDay()->toDateString() }}"
-                        class="form-control bg-light border-0 @error('check_out') is-invalid @enderror">
-                    <label for="check_out" class="text-muted"><i class="bi bi-calendar-x me-1"></i> Check-out</label>
-                    @error('check_out')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                           min="{{ now()->addDay()->toDateString() }}"
+                           class="form-control border-0 bg-transparent @error('check_out') is-invalid @enderror">
                 </div>
+                @error('check_out')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
+            <!-- Jumlah Tamu -->
             <div class="col-md-3">
-                <div class="form-floating">
+                <label for="guests" class="form-label text-muted text-uppercase fw-semibold" style="font-size: 0.75rem;">
+                    <i class="bi bi-people me-1"></i> Jumlah Tamu
+                </label>
+                <div class="border rounded-3 p-1 bg-light">
                     <input type="number" id="guests" name="guests" value="{{ $guests }}" min="1"
-                        placeholder="Semua"
-                        class="form-control bg-light border-0 @error('guests') is-invalid @enderror">
-                    <label for="guests" class="text-muted"><i class="bi bi-people me-1"></i> Jumlah Tamu</label>
-                    @error('guests')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                           placeholder="Semua kapasitas"
+                           class="form-control border-0 bg-transparent @error('guests') is-invalid @enderror">
                 </div>
+                @error('guests')
+                    <div class="text-danger small mt-1">{{ $message }}</div>
+                @enderror
             </div>
 
-            <div class="col-md-3 d-flex gap-2 h-100">
-                <button type="submit" class="btn btn-brand btn-lg w-100 h-100 rounded-3 shadow-sm" style="min-height: 58px;">
-                    Cari Kamar
+            <!-- Tombol Aksi -->
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary btn-lg w-100 py-2 fs-6 rounded-3 fw-semibold">
+                    Cari Ketersediaan
                 </button>
                 @if ($searched || $guests)
-                <a href="{{ route('home') }}" class="btn btn-light btn-lg border h-100 d-flex align-items-center rounded-3" title="Reset Pencarian">
-                    <i class="bi bi-arrow-clockwise"></i>
-                </a>
+                    <a href="{{ route('home') }}" class="btn btn-light btn-lg border d-flex align-items-center justify-content-center rounded-3 px-3" title="Reset">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </a>
                 @endif
             </div>
         </form>
     </div>
 </div>
 
-<div class="container mb-5">
-    <!-- Info Ketersediaan -->
-    @if ($searched)
-    <div class="text-center mb-5">
-        <span class="badge bg-light text-dark border px-4 py-2 fs-6 rounded-pill shadow-sm">
-            <i class="bi bi-search me-2"></i> Ketersediaan kamar:
-            <span class="fw-bold">{{ \Carbon\Carbon::parse($checkIn)->format('d M Y') }}</span> —
-            <span class="fw-bold">{{ \Carbon\Carbon::parse($checkOut)->format('d M Y') }}</span>
-        </span>
-    </div>
-    @endif
-
-    <!-- Daftar Kamar -->
-    <div class="d-flex justify-content-between align-items-end mb-4">
-        <h2 class="mb-0">Kamar Pilihan Kami</h2>
-    </div>
-
-    <div class="row g-4">
-        @forelse ($roomTypes as $type)
-        <div class="col-md-6 col-lg-4">
-            <div class="card room-card h-100 shadow-sm border-0 rounded-4 overflow-hidden bg-white">
-                <!-- Placeholder Gambar Kamar (Bisa diganti dengan $type->image jika ada di database) -->
-                <div class="position-relative">
-                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800&auto=format&fit=crop" class="card-img-top object-fit-cover" alt="{{ $type->name }}" style="height: 220px;">
-                    @if ($searched)
-                    <div class="position-absolute top-0 end-0 p-3">
-                        @if ($type->available_count > 0)
-                        <span class="badge bg-success shadow">{{ $type->available_count }} Tersedia</span>
-                        @else
-                        <span class="badge bg-danger shadow">Penuh</span>
-                        @endif
-                    </div>
-                    @endif
-                </div>
-
-                <div class="card-body d-flex flex-column p-4">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h4 class="card-title hotel-font fw-bold mb-0">{{ $type->name }}</h4>
-                    </div>
-
-                    <p class="text-muted small mb-3">
-                        <i class="bi bi-person-fill text-secondary"></i> Maks. {{ $type->capacity }} tamu
-                    </p>
-
-                    <p class="card-text text-secondary" style="font-size: 0.95rem;">
-                        {{ \Illuminate\Support\Str::limit($type->description, 80) }}
-                    </p>
-
-                    <div class="mb-4 d-flex flex-wrap gap-1">
-                        @foreach ($type->facilities as $facility)
-                        <span class="badge rounded-pill text-bg-light border text-secondary fw-normal px-2 py-1">
-                            {{ $facility->name }}
-                        </span>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
-                        <div>
-                            <span class="text-muted small d-block">Mulai dari</span>
-                            <div class="fs-5 fw-bold text-dark">
-                                Rp {{ number_format($type->price_per_night, 0, ',', '.') }}
-                                <span class="text-muted fw-normal" style="font-size: 0.8rem;">/ malam</span>
-                            </div>
-                        </div>
-                        <a href="{{ route('rooms.show', array_merge(['roomType' => $type->id], $search)) }}"
-                            class="btn btn-outline-dark rounded-pill px-4">Detail</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @empty
-        <div class="col-12">
-            <div class="alert bg-white border shadow-sm rounded-4 text-center py-5">
-                <i class="bi bi-door-closed fs-1 text-muted d-block mb-3"></i>
-                <h5 class="hotel-font">Tidak ada kamar yang sesuai</h5>
-                <p class="text-muted mb-0">Coba ubah tanggal check-in/check-out atau jumlah tamu Anda.</p>
-            </div>
-        </div>
-        @endforelse
+<!-- Info Ketersediaan jika sedang mencari -->
+@if ($searched)
+<div class="container mb-4 text-center">
+    <div class="alert alert-info border-0 rounded-pill shadow-sm d-inline-block px-4 py-2 mb-0">
+        <i class="bi bi-info-circle-fill me-2"></i> Menampilkan ketersediaan kamar:
+        <strong>{{ \Carbon\Carbon::parse($checkIn)->format('d M Y') }}</strong> s/d
+        <strong>{{ \Carbon\Carbon::parse($checkOut)->format('d M Y') }}</strong>
+        @if ($guests) &bull; minimal <strong>{{ $guests }} Tamu</strong> @endif
     </div>
 </div>
+@endif
 
-<!-- Section: Kenapa TuruStay -->
-<section class="py-5 mt-5 bg-white border-top border-bottom">
+<!-- 4. About Section -->
+<section class="py-5" id="tentang">
     <div class="container py-4">
-        <div class="text-center mb-5">
-            <h2 class="mb-3">Kenapa Memilih TuruStay?</h2>
-            <p class="text-muted mx-auto" style="max-width: 600px;">Kami memastikan pengalaman menginap Anda nyaman, aman, dan tanpa hambatan dari awal pemesanan hingga check-out.</p>
-        </div>
-
-        <div class="row g-4 text-center">
-            <div class="col-md-4">
-                <div class="p-3">
-                    <div class="d-inline-block bg-light p-4 rounded-circle mb-3 shadow-sm">
-                        <i class="bi bi-lightning-charge-fill fs-2" style="color: #8c6b4a;"></i>
-                    </div>
-                    <h5 class="fw-bold">Pemesanan Instan</h5>
-                    <p class="text-muted">Pilih tanggal, temukan kamar yang tepat, dan amankan pesanan Anda hanya dalam hitungan menit.</p>
-                </div>
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h6 class="text-primary text-uppercase fw-bold tracking-wider mb-2" style="font-size: 0.85rem;">Tentang Turustay</h6>
+                <h2 class="display-6 fw-bold text-gray-900 mb-4" style="color: #111827;">Lebih dari sekadar tempat menginap</h2>
+                <p class="text-secondary leading-relaxed mb-3">
+                    Turustay didesain untuk memberikan pengalaman menginap yang tak terlupakan. Filosofi kami berpusat pada kenyamanan maksimal, layanan personal, dan integrasi harmonis dengan budaya lokal.
+                </p>
+                <p class="text-secondary leading-relaxed mb-4">
+                    Baik Anda bepergian untuk bisnis maupun rekreasi, fasilitas kelas dunia kami memastikan setiap kebutuhan Anda terpenuhi sejak momen Anda melangkah masuk ke lobi kami.
+                </p>
+                <a href="#kamar" class="text-primary fw-semibold text-decoration-none d-inline-flex align-items-center">
+                    Pelajari lebih lanjut <i class="bi bi-arrow-right ms-2"></i>
+                </a>
             </div>
-            <div class="col-md-4">
-                <div class="p-3">
-                    <div class="d-inline-block bg-light p-4 rounded-circle mb-3 shadow-sm">
-                        <i class="bi bi-shield-check fs-2" style="color: #8c6b4a;"></i>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format&fit=crop" 
+                             class="photo-grid-main shadow-sm" alt="Hotel Interior">
                     </div>
-                    <h5 class="fw-bold">Ketersediaan Akurat</h5>
-                    <p class="text-muted">Sistem pintar kami mencegah pemesanan ganda. Kamar yang Anda lihat adalah kamar yang pasti tersedia.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="p-3">
-                    <div class="d-inline-block bg-light p-4 rounded-circle mb-3 shadow-sm">
-                        <i class="bi bi-cup-hot-fill fs-2" style="color: #8c6b4a;"></i>
+                    <div class="col-6 d-flex flex-column gap-3">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop" 
+                             class="photo-grid-sub shadow-sm" alt="Kolam Renang">
+                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800&auto=format&fit=crop" 
+                             class="photo-grid-sub shadow-sm" alt="Kamar Hotel">
                     </div>
-                    <h5 class="fw-bold">Transparansi Fasilitas</h5>
-                    <p class="text-muted">Dari kecepatan WiFi hingga menu sarapan, semua detail terlihat jelas sebelum Anda memesan.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Section: Cara Memesan -->
-<section class="py-5 mb-4">
+<!-- 5. Rooms Grid -->
+<section class="py-5 bg-white border-top border-bottom" id="kamar">
     <div class="container py-4">
-        <h2 class="text-center mb-5">Langkah Mudah Menginap</h2>
-        <div class="row g-4 position-relative">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-gray-900 mb-2" style="color: #111827;">Pilihan Kamar</h2>
+            <p class="text-secondary mx-auto" style="max-width: 620px;">
+                Ruang istirahat yang dirancang dengan elegan untuk memenuhi segala kebutuhan Anda.
+            </p>
+        </div>
 
+        <div class="row g-4">
+            @forelse ($roomTypes as $type)
+                <div class="col-md-6 col-lg-4">
+                    <div class="room-card-wf h-100 d-flex flex-column">
+                        <!-- Foto Kamar -->
+                        <div class="position-relative" style="height: 210px; background-color: #e5e7eb;">
+                            @if ($type->image)
+                                <img src="{{ asset('storage/' . $type->image) }}" class="w-100 h-100 object-fit-cover" alt="{{ $type->name }}">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800&auto=format&fit=crop" class="w-100 h-100 object-fit-cover" alt="{{ $type->name }}">
+                            @endif
+
+                            @if ($searched)
+                                <div class="position-absolute top-0 end-0 p-3">
+                                    @if ($type->available_count > 0)
+                                        <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm">{{ $type->available_count }} Tersedia</span>
+                                    @else
+                                        <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm">Penuh</span>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Konten Kamar -->
+                        <div class="p-4 d-flex flex-column flex-grow-1">
+                            <h4 class="fw-bold text-dark mb-1">{{ $type->name }}</h4>
+                            <p class="text-muted small mb-3">
+                                <i class="bi bi-people-fill text-secondary me-1"></i> Maks. {{ $type->capacity }} Tamu
+                            </p>
+
+                            <p class="text-secondary small mb-3 flex-grow-1">
+                                {{ \Illuminate\Support\Str::limit($type->description, 80) }}
+                            </p>
+
+                            <!-- Fasilitas -->
+                            <div class="d-flex flex-wrap gap-1 mb-4">
+                                @forelse ($type->facilities as $facility)
+                                    <span class="badge bg-light text-secondary border fw-normal px-2 py-1">
+                                        @if ($facility->icon) <i class="bi {{ $facility->icon }} me-1"></i> @endif
+                                        {{ $facility->name }}
+                                    </span>
+                                @empty
+                                    <span class="text-muted small">Standard amenities</span>
+                                @endforelse
+                            </div>
+
+                            <!-- Harga & Aksi -->
+                            <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted small d-block">Mulai dari</span>
+                                    <span class="fw-bold text-dark fs-5">
+                                        Rp {{ number_format($type->price_per_night, 0, ',', '.') }}
+                                        <span class="text-muted fw-normal" style="font-size: 0.8rem;">/malam</span>
+                                    </span>
+                                </div>
+                                <a href="{{ route('rooms.show', array_merge(['roomType' => $type->id], $search)) }}"
+                                   class="btn btn-outline-primary rounded-2 px-3 py-2 text-sm fw-medium">
+                                    Lihat Kamar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm p-5 text-center rounded-4">
+                        <i class="bi bi-door-closed display-4 text-muted mb-3"></i>
+                        <h5>Tidak ada tipe kamar yang cocok</h5>
+                        <p class="text-muted mb-3">Coba atur ulang tanggal atau kurangi jumlah tamu.</p>
+                        <div>
+                            <a href="{{ route('home') }}" class="btn btn-primary btn-sm px-4">Reset Pencarian</a>
+                        </div>
+                    </div>
+                </div>
+            @endforelse
+        </div>
+
+        @if ($searched || $guests)
+        <div class="text-center mt-5">
+            <a href="{{ route('home') }}" class="text-dark fw-semibold text-decoration-underline">
+                Lihat Semua Tipe Kamar
+            </a>
+        </div>
+        @endif
+    </div>
+</section>
+
+<!-- 6. Amenities Section -->
+<section class="py-5" id="fasilitas">
+    <div class="container py-4 text-center">
+        <h2 class="fw-bold text-gray-900 mb-5" style="color: #111827;">Fasilitas Unggulan</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-6 col-md-auto amenity-item px-md-4">
+                <div class="amenity-circle">
+                    <i class="bi bi-water"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-0">Kolam Renang</h6>
+            </div>
+            <div class="col-6 col-md-auto amenity-item px-md-4">
+                <div class="amenity-circle">
+                    <i class="bi bi-stars"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-0">Spa & Pijat</h6>
+            </div>
+            <div class="col-6 col-md-auto amenity-item px-md-4">
+                <div class="amenity-circle">
+                    <i class="bi bi-cup-hot"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-0">Restoran</h6>
+            </div>
+            <div class="col-6 col-md-auto amenity-item px-md-4">
+                <div class="amenity-circle">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-0">Pusat Kebugaran</h6>
+            </div>
+            <div class="col-6 col-md-auto amenity-item px-md-4">
+                <div class="amenity-circle">
+                    <i class="bi bi-headset"></i>
+                </div>
+                <h6 class="fw-semibold text-dark mb-0">Layanan 24 Jam</h6>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. Testimonials Section -->
+<section class="py-5 bg-light border-top border-bottom" id="testimoni">
+    <div class="container py-4">
+        <h2 class="fw-bold text-center text-gray-900 mb-5" style="color: #111827;">Apa Kata Tamu Kami</h2>
+        <div class="row g-4">
+            <!-- Review 1 -->
             <div class="col-md-4">
-                <div class="card h-100 border-0 bg-transparent text-center px-2">
-                    <div class="step-number fs-3 fw-bold shadow-sm">1</div>
-                    <h5 class="fw-bold">Tentukan Tanggal</h5>
-                    <p class="text-muted mb-0">Masukkan jadwal check-in, check-out, serta jumlah tamu yang akan menginap.</p>
+                <div class="testimonial-card p-4 h-100 d-flex flex-column shadow-sm">
+                    <div class="text-dark mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="text-secondary fst-italic mb-4 flex-grow-1">
+                        "Pelayanan luar biasa! Kamar sangat bersih dan interiornya minimalis modern. Lokasi juga sangat strategis untuk jalan-jalan di pusat kota."
+                    </p>
+                    <div class="d-flex align-items-center gap-3 pt-3 border-top">
+                        <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center text-secondary fw-bold" style="width: 42px; height: 42px;">BS</div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Budi Santoso</h6>
+                            <small class="text-muted">Tamu Keluarga</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <!-- Review 2 -->
             <div class="col-md-4">
-                <div class="card h-100 border-0 bg-transparent text-center px-2">
-                    <div class="step-number fs-3 fw-bold shadow-sm">2</div>
-                    <h5 class="fw-bold">Pilih Kamar Impian</h5>
-                    <p class="text-muted mb-0">Bandingkan ukuran, fasilitas, dan harga. Temukan tipe kamar yang paling sesuai dengan kebutuhan Anda.</p>
+                <div class="testimonial-card p-4 h-100 d-flex flex-column shadow-sm">
+                    <div class="text-dark mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="text-secondary fst-italic mb-4 flex-grow-1">
+                        "Sarapannya juara! Banyak variasi makanan lokal dan western. Kolam renang di rooftop menawarkan pemandangan sunset yang sangat indah."
+                    </p>
+                    <div class="d-flex align-items-center gap-3 pt-3 border-top">
+                        <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center text-secondary fw-bold" style="width: 42px; height: 42px;">SA</div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Siti Aminah</h6>
+                            <small class="text-muted">Tamu Pasangan</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            <!-- Review 3 -->
             <div class="col-md-4">
-                <div class="card h-100 border-0 bg-transparent text-center px-2">
-                    <div class="step-number fs-3 fw-bold shadow-sm">3</div>
-                    <h5 class="fw-bold">Konfirmasi & Bersantai</h5>
-                    <p class="text-muted mb-0">Selesaikan pemesanan dan tunggu konfirmasi otomatis. Anda siap untuk menikmati istirahat yang tenang.</p>
+                <div class="testimonial-card p-4 h-100 d-flex flex-column shadow-sm">
+                    <div class="text-dark mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                    <p class="text-secondary fst-italic mb-4 flex-grow-1">
+                        "Sangat cocok untuk perjalanan bisnis. WiFi super cepat, meja kerja nyaman di dalam kamar, dan proses check-in sangat efisien."
+                    </p>
+                    <div class="d-flex align-items-center gap-3 pt-3 border-top">
+                        <div class="rounded-circle bg-secondary-subtle d-flex align-items-center justify-content-center text-secondary fw-bold" style="width: 42px; height: 42px;">RP</div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Reza Pahlevi</h6>
+                            <small class="text-muted">Perjalanan Bisnis</small>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
 
+<!-- 8. Location & Access Section -->
+<section class="py-5" id="lokasi">
+    <div class="container py-4">
+        <div class="row g-5 align-items-center">
+            <!-- Info Lokasi -->
+            <div class="col-lg-6">
+                <h2 class="fw-bold text-gray-900 mb-4" style="color: #111827;">Lokasi & Akses</h2>
+                <div class="mb-4">
+                    <h5 class="fw-bold text-dark mb-2">Turustay Hotel</h5>
+                    <p class="text-secondary mb-2 d-flex align-items-start gap-2">
+                        <i class="bi bi-geo-alt text-secondary fs-5"></i>
+                        Jl. Jenderal Sudirman No. 123, Pusat Kota, Daerah Bisnis, Kode Pos 12345
+                    </p>
+                    <p class="text-secondary mb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-telephone text-secondary fs-5"></i> +62 21 555 0123
+                    </p>
+                    <p class="text-secondary d-flex align-items-center gap-2">
+                        <i class="bi bi-envelope text-secondary fs-5"></i> hello@turustay.com
+                    </p>
+                </div>
+
+                <h6 class="fw-bold text-dark mb-3 border-bottom pb-2">Jarak Akses Terdekat</h6>
+                <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                    <li class="d-flex justify-content-between align-items-center text-secondary">
+                        <span><i class="bi bi-airplane me-2"></i> Bandara Internasional</span>
+                        <span class="badge bg-light text-dark border">15 KM (30 Menit)</span>
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center text-secondary">
+                        <span><i class="bi bi-train-front me-2"></i> Stasiun Kereta Pusat</span>
+                        <span class="badge bg-light text-dark border">2.5 KM (10 Menit)</span>
+                    </li>
+                    <li class="d-flex justify-content-between align-items-center text-secondary">
+                        <span><i class="bi bi-bag me-2"></i> Mall Pusat Kota</span>
+                        <span class="badge bg-light text-dark border">500 M (Jalan Kaki)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Map Placeholder / Embed -->
+            <div class="col-lg-6">
+                <div class="rounded-3 overflow-hidden border shadow-sm bg-light d-flex align-items-center justify-content-center" style="height: 380px;">
+                    <div class="text-center text-muted p-4">
+                        <i class="bi bi-map display-4 d-block mb-3 text-secondary"></i>
+                        <h5 class="fw-bold text-dark mb-1">Google Maps Embed Placeholder</h5>
+                        <p class="small text-secondary mb-3">Turustay Hotel - Pusat Kota</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn btn-outline-dark btn-sm rounded-2 px-3">
+                            <i class="bi bi-box-arrow-up-right me-1"></i> Buka di Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
