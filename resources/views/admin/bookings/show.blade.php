@@ -3,7 +3,7 @@
 @section('title', 'Dashboard Admin - TuruStay')
 
 @section('content')
-<div class="container mt-4 mb-5">
+<div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1 class="h3 mb-0 text-gray-800">Booking #{{ $booking->booking_code }}</h1>
         <a href="{{ route('admin.bookings.index') }}" class="btn btn-outline-secondary">
