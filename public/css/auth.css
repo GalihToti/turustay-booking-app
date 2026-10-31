@@ -1,0 +1,173 @@
+/* ==========================================================================
+   Auth (Login & Sign Up) Styles - TuruStay
+   ========================================================================== */
+
+/* Card Container */
+.auth-container {
+    width: 100%;
+    max-width: 1000px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color, #e5e7eb);
+    overflow: hidden;
+}
+
+/* Left Column (Branding/Image) */
+.auth-left {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    position: relative;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Decorative building shape silhouette for the background */
+.auth-left::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(148, 163, 184, 0.4), transparent);
+    clip-path: polygon(0 40%, 20% 40%, 20% 20%, 50% 20%, 50% 0%, 100% 0%, 100% 100%, 0% 100%);
+    z-index: 1;
+}
+
+.auth-left-content {
+    position: relative;
+    z-index: 2;
+}
+
+.brand-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark, #1f2937);
+    margin-bottom: 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-logo i {
+    color: var(--primary-color, #4a5568);
+}
+
+/* Right Column (Form) */
+.auth-right {
+    padding: 3rem;
+    background-color: #ffffff;
+}
+
+/* Form Elements */
+.auth-right .form-control {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-right .form-control:focus {
+    border-color: var(--primary-color, #4a5568);
+    box-shadow: 0 0 0 0.25rem rgba(74, 85, 104, 0.1);
+}
+
+/* Input with Icons */
+.input-icon-wrapper {
+    position: relative;
+}
+
+.input-icon-wrapper i.left-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted, #6b7280);
+    font-size: 1rem;
+    z-index: 4;
+}
+
+.input-icon-wrapper i.right-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted, #6b7280);
+    font-size: 1rem;
+    cursor: pointer;
+    z-index: 4;
+    transition: color 0.2s;
+}
+
+.input-icon-wrapper i.right-icon:hover {
+    color: var(--text-dark, #1f2937);
+}
+
+.input-icon-wrapper .form-control {
+    padding-left: 2.75rem !important; /* Make room for left icon */
+}
+
+.input-icon-wrapper.has-right-icon .form-control {
+    padding-right: 2.75rem !important; /* Make room for right icon */
+}
+
+/* Buttons */
+.btn-social {
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: var(--text-dark, #1f2937);
+    border-radius: 8px;
+    padding: 0.6rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-social:hover {
+    background-color: var(--bg-light, #f8f9fa);
+    color: var(--text-dark, #1f2937);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.75rem 0;
+    color: var(--text-muted, #6b7280);
+    font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.divider:not(:empty)::before { margin-right: 1em; }
+.divider:not(:empty)::after { margin-left: 1em; }
+
+/* Links */
+.link-custom {
+    color: var(--primary-color, #4a5568);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-custom:hover {
+    color: var(--primary-hover, #374151);
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .auth-left { display: none !important; }
+    .auth-right { padding: 2rem; }
+}
