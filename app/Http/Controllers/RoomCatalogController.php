@@ -43,7 +43,9 @@ class RoomCatalogController extends Controller
             if ($validator->fails()) {
                 // Tampilkan halaman tanpa hasil pencarian, tapi dengan pesan error
                 $roomTypes = $query->get();
-                return view('welcome', compact('checkIn', 'checkOut', 'guests', 'searched', 'search', 'roomTypes'))
+                $checkInFormatted  = null;
+                $checkOutFormatted = null;
+                return view('home', compact('checkIn', 'checkOut', 'checkInFormatted', 'checkOutFormatted', 'guests', 'searched', 'search', 'roomTypes'))
                     ->withErrors($validator);
             }
 
@@ -65,9 +67,14 @@ class RoomCatalogController extends Controller
             });
         }
 
-        return view('welcome', compact(
+        $checkInFormatted  = $checkIn ? \Carbon\Carbon::parse($checkIn)->translatedFormat('d M Y') : null;
+        $checkOutFormatted = $checkOut ? \Carbon\Carbon::parse($checkOut)->translatedFormat('d M Y') : null;
+
+        return view('home', compact(
             'checkIn',
             'checkOut',
+            'checkInFormatted',
+            'checkOutFormatted',
             'guests',
             'searched',
             'search',
